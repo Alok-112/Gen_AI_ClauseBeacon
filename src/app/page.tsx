@@ -130,6 +130,7 @@ export default function Home() {
 
     startTranslating(async () => {
       try {
+        // Always translate from the original English text for consistency and accuracy.
         const translatedResult = await translateAnalysisAction(analysis.original, language);
         setAnalysis(prev => {
           if (!prev) return null;

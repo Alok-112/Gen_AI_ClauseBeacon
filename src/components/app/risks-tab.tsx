@@ -5,11 +5,15 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 type RisksTabProps = {
   riskFactors: string[];
-  originalRiskFactors: string[];
+  originalRiskFactors?: string[];
   onExplainClause: (clause: string) => void;
 };
 
 export function RisksTab({ riskFactors, originalRiskFactors, onExplainClause }: RisksTabProps) {
+  // Use originalRiskFactors if available, otherwise fallback to the current riskFactors
+  // This is important for ensuring the "Explain" feature works with translated content.
+  const explanationSource = originalRiskFactors || riskFactors;
+
   return (
     <Card className="shadow-lg">
       <CardHeader>
@@ -31,7 +35,7 @@ export function RisksTab({ riskFactors, originalRiskFactors, onExplainClause }: 
                       variant="link"
                       className="p-0 h-auto mt-2 text-primary"
                       // Always explain using the original English clause to ensure context is found
-                      onClick={() => onExplainClause(originalRiskFactors[index] || risk)}
+                      onClick={() => onExplainClause(explanationSource[index] || risk)}
                     >
                       <Sparkles className="mr-2 h-4 w-4" />
                       Explain this in simple terms
