@@ -107,7 +107,8 @@ export default function Home() {
       try {
         // IMPORTANT: Always use the original document text and the original (English) clause for explanation
         // to ensure the AI can find the context.
-        const explanation = await explainClauseAction(documentText, clause);
+        const originalClause = analysis?.original?.riskFactors.find(rf => displayAnalysis.riskFactors.includes(rf)) || clause;
+        const explanation = await explainClauseAction(documentText, originalClause);
         setDialogState(prev => ({ ...prev, explanation }));
       } catch (error) {
         toast.error('Explanation Failed', {
@@ -144,7 +145,7 @@ export default function Home() {
         });
       } catch (error) {
         toast.error('Translation Failed', {
-          description: error instanceof Error ? error.message : 'An unknown error occurred.',
+          description: error instanceof Error ? error.message : 'An unknown error occurred. The language may not be supported or the request may have timed out.',
         });
         setCurrentLang('English'); // Revert on failure
       }
